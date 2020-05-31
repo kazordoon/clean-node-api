@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Felipe Barros <felipetech@tuta.io>",
   "license": "MIT",
+  "standard": {
+    "env": ["jest"]
+  },
   "scripts": {
     "test": "jest"
   },
