@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Felipe Barros <felipetech@tuta.io>",
   "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
   "lint-staged": {
     "*.js": [
       "standard --fix",
@@ -17,6 +20,7 @@
   },
   "devDependencies": {
     "husky": "^4.2.5",
+    "jest": "^26.0.1",
     "lint-staged": "^10.2.7",
     "standard": "^14.3.4"
   }
