@@ -1,3 +1,6 @@
 {
-  "*.js": ["standard --fix"]
+  "*.js": [
+    "standard --fix",
+    "jest"
+  ]
 }
