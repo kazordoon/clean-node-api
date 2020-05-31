@@ -10,7 +10,7 @@ class LoginRouter {
 }
 
 describe('Login router', () => {
-  it('should returns status code 400 if no email is provided', () => {
+  it('should return status code 400 if no email is provided', () => {
     // System Under Test
     const SUT = new LoginRouter()
     const httpRequest = {
@@ -23,7 +23,7 @@ describe('Login router', () => {
     expect(httpResponse.statusCode).toBe(400)
   })
 
-  it('should returns status code 400 if no password is provided', () => {
+  it('should return status code 400 if no password is provided', () => {
     // System Under Test
     const SUT = new LoginRouter()
     const httpRequest = {
