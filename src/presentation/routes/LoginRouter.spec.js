@@ -3,7 +3,6 @@ const MissingParamError = require('../helpers/MissingParamError')
 
 describe('Login router', () => {
   it('should return status code 400 if no email is provided', () => {
-    // System Under Test
     const SUT = new LoginRouter()
     const httpRequest = {
       body: {
@@ -17,7 +16,6 @@ describe('Login router', () => {
   })
 
   it('should return status code 400 if no password is provided', () => {
-    // System Under Test
     const SUT = new LoginRouter()
     const httpRequest = {
       body: {
@@ -31,7 +29,6 @@ describe('Login router', () => {
   })
 
   it('should return status code 500 if no httpRequest is provided', () => {
-    // System Under Test
     const SUT = new LoginRouter()
 
     const httpResponse = SUT.route()
@@ -39,7 +36,6 @@ describe('Login router', () => {
   })
 
   it('should return status code 500 if no httpRequest has no body', () => {
-    // System Under Test
     const SUT = new LoginRouter()
 
     const httpRequest = {}
