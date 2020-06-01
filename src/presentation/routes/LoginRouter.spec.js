@@ -23,7 +23,7 @@ describe('Login router', () => {
     const { SUT } = makeSut()
     const httpRequest = {
       body: {
-        password: 'mypass'
+        password: 'any_password'
       }
     }
 
@@ -36,7 +36,7 @@ describe('Login router', () => {
     const { SUT } = makeSut()
     const httpRequest = {
       body: {
-        email: 'myemail@mail.com'
+        email: 'any_email@mail.com'
       }
     }
 
@@ -65,8 +65,8 @@ describe('Login router', () => {
 
     const httpRequest = {
       body: {
-        email: 'myemail@mail.com',
-        password: 'mypass'
+        email: 'any_email@mail.com',
+        password: 'any_password'
       }
     }
     SUT.route(httpRequest)
