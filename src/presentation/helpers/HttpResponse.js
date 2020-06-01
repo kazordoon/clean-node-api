@@ -1,5 +1,6 @@
 const MissingParamError = require('./MissingParamError')
 const UnauthorizedError = require('./UnauthorizedError')
+const InternalServerError = require('./InternalServerError')
 
 class HttpResponse {
   static ok (data) {
@@ -18,7 +19,8 @@ class HttpResponse {
 
   static internalServerError () {
     return {
-      statusCode: 500
+      statusCode: 500,
+      body: new InternalServerError()
     }
   }
 
