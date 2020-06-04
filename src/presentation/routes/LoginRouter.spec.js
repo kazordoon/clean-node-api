@@ -46,6 +46,8 @@ const makeAuthUseCaseWithError = () => {
 const makeEmailValidator = () => {
   class EmailValidatorSpy {
     isValid (email) {
+      this.email = email
+
       return this.isAValidEmail
     }
   }
@@ -286,4 +288,18 @@ describe('Login router', () => {
       expect(httpResponse.body).toEqual(new InternalServerError())
     }
   )
+
+  it('should call EmailValidator with correct email', async () => {
+    const { SUT, emailValidatorSpy } = makeSut()
+
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    await SUT.route(httpRequest)
+    expect(emailValidatorSpy.isValid(httpRequest.body.email)).toBe(true)
+    expect(emailValidatorSpy.email).toBe(httpRequest.body.email)
+  })
 })
