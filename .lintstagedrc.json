@@ -1,6 +1,6 @@
 {
   "*.js": [
     "standard --fix",
-    "jest"
+    "jest --passWithNoTests"
   ]
 }

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest --watchAll",
-    "test:staged": "jest"
+    "test:staged": "jest --passWithNoTests"
   },
   "devDependencies": {
     "husky": "^4.2.5",
