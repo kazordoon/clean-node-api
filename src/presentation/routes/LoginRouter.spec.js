@@ -13,12 +13,14 @@ const makeAuthUseCase = () => {
     }
   }
 
-  return new AuthUseCaseSpy()
+  const authUseCaseSpy = new AuthUseCaseSpy()
+  authUseCaseSpy.accessToken = 'valid_token'
+
+  return authUseCaseSpy
 }
 
 const makeSut = () => {
   const authUseCaseSpy = makeAuthUseCase()
-  authUseCaseSpy.accessToken = 'valid_token'
 
   const SUT = new LoginRouter(authUseCaseSpy)
 
