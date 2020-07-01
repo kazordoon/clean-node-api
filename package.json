@@ -10,7 +10,7 @@
   "scripts": {
     "test": "jest --watchAll --silent",
     "test:staged": "jest --passWithNoTests --findRelatedTests ./src --silent --noStackTrace",
-    "test:ci": "jest --coverage"
+    "test:ci": "jest --coverage --silent --noStackTrace"
   },
   "devDependencies": {
     "husky": "^4.2.5",
