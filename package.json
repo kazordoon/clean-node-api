@@ -8,8 +8,8 @@
     "env": ["jest"]
   },
   "scripts": {
-    "test": "jest --watchAll",
-    "test:staged": "jest --passWithNoTests"
+    "test": "jest --watchAll --silent",
+    "test:staged": "jest --passWithNoTests --findRelatedTests ./src --silent --noStackTrace"
   },
   "devDependencies": {
     "husky": "^4.2.5",
