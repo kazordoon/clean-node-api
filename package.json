@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "jest --silent --noStackTrace --passWithNoTests",
-    "test:unit": "yarn test --watch",
+    "test:unit": "yarn test --watch --config ./jest-unit-config.js",
+    "test:integration": "yarn test --watch --config ./jest-integration-config.js",
     "test:staged": "yarn test --findRelatedTests",
     "test:ci": "yarn test --coverage"
   },
