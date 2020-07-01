@@ -8,9 +8,10 @@
     "env": ["jest"]
   },
   "scripts": {
-    "test": "jest --watchAll --silent",
-    "test:staged": "jest --passWithNoTests --findRelatedTests ./src --silent --noStackTrace",
-    "test:ci": "jest --coverage --silent --noStackTrace"
+    "test": "jest --silent --noStackTrace --passWithNoTests",
+    "test:unit": "yarn test --watch",
+    "test:staged": "yarn test --findRelatedTests",
+    "test:ci": "yarn test --coverage"
   },
   "devDependencies": {
     "husky": "^4.2.5",
