@@ -16,6 +16,19 @@ const makeEncrypter = () => {
   return encrypterSpy
 }
 
+const makeTokenGenerator = () => {
+  class TokenGenerator {
+    generate (userId) {
+      this.userId = userId
+      return this.accessToken
+    }
+  }
+
+  const tokenGenerator = new TokenGenerator()
+  tokenGenerator.accessToken = 'any_token'
+  return tokenGenerator
+}
+
 const makeLoadUserByEmailRepository = () => {
   class LoadUserByEmailRepositorySpy {
     async load (email) {
@@ -26,6 +39,7 @@ const makeLoadUserByEmailRepository = () => {
 
   const loadUserByEmailRepositorySpy = new LoadUserByEmailRepositorySpy()
   loadUserByEmailRepositorySpy.user = {
+    id: 'any_id',
     password: 'hashed_password'
   }
 
@@ -34,14 +48,16 @@ const makeLoadUserByEmailRepository = () => {
 
 const makeSut = () => {
   const encrypterSpy = makeEncrypter()
+  const tokenGeneratorSpy = makeTokenGenerator()
   const loadUserByEmailRepositorySpy = makeLoadUserByEmailRepository()
 
-  const SUT = new AuthUseCase(loadUserByEmailRepositorySpy, encrypterSpy)
+  const SUT = new AuthUseCase(loadUserByEmailRepositorySpy, encrypterSpy, tokenGeneratorSpy)
 
   return {
     SUT,
     loadUserByEmailRepositorySpy,
-    encrypterSpy
+    encrypterSpy,
+    tokenGeneratorSpy
   }
 }
 
@@ -99,12 +115,20 @@ describe('Auth UseCase', () => {
     expect(accessToken).toBeNull()
   })
 
-  it('should call encrypter with correct values', async () => {
+  it('should call Encrypter with correct values', async () => {
     const password = 'any_password'
     const { SUT, loadUserByEmailRepositorySpy, encrypterSpy } = makeSut()
     await SUT.auth('valid_email@mail.com', password)
 
     expect(encrypterSpy.password).toBe(password)
     expect(encrypterSpy.hashedPassword).toBe(loadUserByEmailRepositorySpy.user.password)
+  })
+
+  it('should call TokenGenerator with correct userId', async () => {
+    const password = 'valid_password'
+    const { SUT, loadUserByEmailRepositorySpy, tokenGeneratorSpy } = makeSut()
+    await SUT.auth('valid_email@mail.com', password)
+
+    expect(tokenGeneratorSpy.userId).toBe(loadUserByEmailRepositorySpy.user.id)
   })
 })
