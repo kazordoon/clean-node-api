@@ -16,6 +16,16 @@ const makeEncrypter = () => {
   return encrypterSpy
 }
 
+const makeEncrypterWithError = () => {
+  class EncrypterSpy {
+    async compare () {
+      throw new Error()
+    }
+  }
+
+  return new EncrypterSpy()
+}
+
 const makeTokenGenerator = () => {
   class TokenGenerator {
     generate (userId) {
@@ -27,6 +37,16 @@ const makeTokenGenerator = () => {
   const tokenGenerator = new TokenGenerator()
   tokenGenerator.accessToken = 'any_token'
   return tokenGenerator
+}
+
+const makeTokenGeneratorWithError = () => {
+  class TokenGenerator {
+    generate () {
+      throw new Error()
+    }
+  }
+
+  return new TokenGenerator()
 }
 
 const makeLoadUserByEmailRepository = () => {
@@ -44,6 +64,16 @@ const makeLoadUserByEmailRepository = () => {
   }
 
   return loadUserByEmailRepositorySpy
+}
+
+const makeLoadUserByEmailRepositoryWithError = () => {
+  class LoadUserByEmailRepositorySpy {
+    async load () {
+      throw new Error()
+    }
+  }
+
+  return new LoadUserByEmailRepositorySpy()
 }
 
 const makeSut = () => {
@@ -159,6 +189,31 @@ describe('Auth UseCase', () => {
       })
     ]
 
+    SUTs.forEach((SUT) => {
+      const promise = SUT.auth('any_email@mail.com', 'any_password')
+      expect(promise).rejects.toThrow()
+    })
+  })
+
+  it('should throw an error if any dependency throws an error', async () => {
+    const loadUserByEmailRepository = makeLoadUserByEmailRepository()
+    const encrypter = makeEncrypter()
+    const SUTs = [
+      new AuthUseCase({ loadUserByEmailRepository: makeLoadUserByEmailRepositoryWithError() }),
+      new AuthUseCase({
+        loadUserByEmailRepository,
+        encrypter: makeEncrypterWithError()
+      }),
+      new AuthUseCase({
+        loadUserByEmailRepository,
+        encrypter: makeEncrypterWithError()
+      }),
+      new AuthUseCase({
+        loadUserByEmailRepository,
+        encrypter,
+        tokenGenerator: makeTokenGeneratorWithError()
+      })
+    ]
     SUTs.forEach((SUT) => {
       const promise = SUT.auth('any_email@mail.com', 'any_password')
       expect(promise).rejects.toThrow()
