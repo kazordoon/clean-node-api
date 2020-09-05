@@ -10,11 +10,11 @@
     ]
   },
   "scripts": {
-    "test": "jest --silent --noStackTrace --passWithNoTests",
+    "test": "jest --noStackTrace --passWithNoTests",
     "test:unit": "yarn test --watch --config ./jest-unit-config.js",
     "test:integration": "yarn test --watch --config ./jest-integration-config.js",
-    "test:staged": "yarn test --findRelatedTests",
-    "test:ci": "yarn test --coverage"
+    "test:staged": "yarn test --findRelatedTests --silent",
+    "test:ci": "yarn test --coverage --silent"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.3",
