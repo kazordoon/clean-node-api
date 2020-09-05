@@ -17,6 +17,7 @@
     "test:ci": "yarn test --coverage"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.3",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "lint-staged": "^10.2.7",
