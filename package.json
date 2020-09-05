@@ -25,6 +25,7 @@
   "dependencies": {
     "bcrypt": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.1",
     "validator": "^13.1.1"
   }
 }
