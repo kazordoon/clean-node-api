@@ -1,4 +1,5 @@
 const mongoHelper = require('../helpers/mongoHelper')
+const { MissingParamError } = require('../../utils/errors')
 
 let db
 
@@ -8,6 +9,14 @@ class UpdateAccessTokenRepository {
   }
 
   async update (userId, accessToken) {
+    if (!userId) {
+      throw new MissingParamError('userId')
+    }
+
+    if (!accessToken) {
+      throw new MissingParamError('accessToken')
+    }
+
     await this.userModel.updateOne({ _id: userId }, {
       $set: {
         accessToken
@@ -27,6 +36,10 @@ const makeSUT = () => {
 }
 
 describe('UpdateAccessTokenRepository', () => {
+  const fakeUser = {
+    email: 'valid_email@mail.com'
+  }
+
   beforeEach(async () => {
     await db.collection('users').deleteMany({})
   })
@@ -42,10 +55,6 @@ describe('UpdateAccessTokenRepository', () => {
 
   it('should update the user with the given accessToken', async () => {
     const { SUT, userModel } = makeSUT()
-
-    const fakeUser = {
-      email: 'valid_email@mail.com'
-    }
     const [insertedFakeUser] = (await userModel.insertOne(fakeUser)).ops
 
     await SUT.update(insertedFakeUser._id, 'valid_token')
@@ -56,9 +65,6 @@ describe('UpdateAccessTokenRepository', () => {
   })
 
   it('should throw an error if no userModel is provided', async () => {
-    const fakeUser = {
-      email: 'valid_email@mail.com'
-    }
     const userModel = db.collection('users')
     const [insertedFakeUser] = (await userModel.insertOne(fakeUser)).ops
 
@@ -66,5 +72,14 @@ describe('UpdateAccessTokenRepository', () => {
     const promise = SUT.update(insertedFakeUser._id, 'any_accessToken')
 
     expect(promise).rejects.toThrow()
+  })
+
+  it('should throw an error if no params are provided', async () => {
+    const { SUT, userModel } = makeSUT()
+
+    const [insertedFakeUser] = (await userModel.insertOne(fakeUser)).ops
+
+    expect(SUT.update()).rejects.toThrow(new MissingParamError('userId'))
+    expect(SUT.update(insertedFakeUser._id)).rejects.toThrow(new MissingParamError('accessToken'))
   })
 })
