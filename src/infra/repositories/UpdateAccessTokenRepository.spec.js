@@ -16,6 +16,16 @@ class UpdateAccessTokenRepository {
   }
 }
 
+const makeSUT = () => {
+  const userModel = db.collection('users')
+  const SUT = new UpdateAccessTokenRepository(userModel)
+
+  return {
+    userModel,
+    SUT
+  }
+}
+
 describe('UpdateAccessTokenRepository', () => {
   beforeEach(async () => {
     await db.collection('users').deleteMany({})
@@ -31,13 +41,13 @@ describe('UpdateAccessTokenRepository', () => {
   })
 
   it('should update the user with the given accessToken', async () => {
+    const { SUT, userModel } = makeSUT()
+
     const fakeUser = {
       email: 'valid_email@mail.com'
     }
-    const userModel = db.collection('users')
     const [insertedFakeUser] = (await userModel.insertOne(fakeUser)).ops
 
-    const SUT = new UpdateAccessTokenRepository(userModel)
     await SUT.update(insertedFakeUser._id, 'valid_token')
 
     const updatedFakeUser = await userModel.findOne({ _id: insertedFakeUser._id })
