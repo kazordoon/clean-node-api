@@ -1,10 +1,6 @@
 const app = require('fastify')()
-const cors = require('fastify-cors')
+const cors = require('../plugins/cors')
 
-app.register(cors, {
-  origin: '*',
-  methods: '*',
-  allowedHeaders: '*'
-})
+cors(app)
 
 module.exports = app
