@@ -1,8 +1,6 @@
 const app = require('fastify')()
-const cors = require('../plugins/cors')
-const contentType = require('../hooks/contentType')
+const setupApp = require('./setup')
 
-cors(app)
-contentType(app)
+setupApp(app)
 
 module.exports = app
