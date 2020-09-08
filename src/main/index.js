@@ -1,3 +1,12 @@
-const fastify = require('fastify')()
+const mongoHelper = require('../infra/helpers/mongoHelper')
+const fastify = require('fastify')({
+  logger: true
+})
 
-fastify.listen(3333)
+const env = require('./config/env')
+
+mongoHelper.connect(env.MONGO_URL)
+  .then(() => {
+    fastify.listen(env.PORT, env.HOST)
+  })
+  .catch(console.error)
