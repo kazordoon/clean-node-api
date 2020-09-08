@@ -1,8 +1,7 @@
 module.exports = {
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
-  collectCoverageFrom: ['**/src/**/*.js'],
+  collectCoverageFrom: ['**/src/**/*.js', '!**/src/main/**'],
   preset: '@shelf/jest-mongodb',
-  roots: ['src', '__mocks__'],
-  coveragePathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/src/main/index.js']
+  roots: ['src', '__mocks__']
 }
