@@ -1,7 +1,7 @@
-module.exports = (app, options, done) => {
-  app.get('/login', (request, reply) => {
-    reply.send({ hello: 'world' })
-  })
+// const loginRouter = require('../composers/LoginRouterComposer')
+
+module.exports = async (app, options, done) => {
+  app.post('/login', (request, reply) => reply.send())
 
   done()
 }
