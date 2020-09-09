@@ -1,4 +1,4 @@
-const app = require('fastify')()
+const app = require('fastify')({ logger: true })
 const setupApp = require('./setup')
 const setupRoutes = require('./routes')
 
