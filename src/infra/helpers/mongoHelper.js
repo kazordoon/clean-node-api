@@ -16,12 +16,12 @@ module.exports = {
     this.client = null
     this.db = null
   },
-  async getDb () {
+  async getCollection (name) {
     const clientNotConnected = !this.client || !this.client.isConnected()
     if (clientNotConnected) {
       await this.connect(this.url, this.dbName)
     }
 
-    return this.db
+    return this.db.collection(name)
   }
 }

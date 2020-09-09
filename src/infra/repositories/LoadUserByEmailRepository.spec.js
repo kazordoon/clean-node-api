@@ -2,7 +2,6 @@ const LoadUserByEmailRepository = require('./LoadUserByEmailRepository')
 const mongoHelper = require('../helpers/mongoHelper')
 const { MissingParamError } = require('../../utils/errors')
 
-let db
 let userModel
 
 const makeSUT = () => {
@@ -11,13 +10,12 @@ const makeSUT = () => {
 
 describe('LoadUserByEmailRepository', () => {
   beforeEach(async () => {
-    await db.collection('users').deleteMany({})
+    await userModel.deleteMany({})
   })
 
   beforeAll(async () => {
     await mongoHelper.connect(process.env.MONGO_URL)
-    db = await mongoHelper.getDb()
-    userModel = db.collection('users')
+    userModel = await mongoHelper.getCollection('users')
   })
 
   afterAll(async () => {
