@@ -36,5 +36,22 @@ describe('Login Routes', () => {
 
       expect(response.statusCode).toBe(200)
     })
+
+    it('should return status code 401 when invalid credentials are provided', async () => {
+      const password = 'hashed_password'
+      const hashedPassword = await bcrypt.hash(password, 10)
+      const fakeUser = {
+        email: 'valid_email@mail.com',
+        password: hashedPassword
+      }
+
+      const response = await app.inject({
+        method: 'POST',
+        url: '/api/login',
+        body: { ...fakeUser, password }
+      })
+
+      expect(response.statusCode).toBe(401)
+    })
   })
 })
