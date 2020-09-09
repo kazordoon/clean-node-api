@@ -1,7 +1,7 @@
 jest.mock('jsonwebtoken', () => ({
   token: 'any_token',
-  sign (id, secret) {
-    this.id = id
+  sign (payload, secret) {
+    this.payload = payload
     this.secret = secret
 
     return this.token
@@ -36,7 +36,8 @@ describe('TokenGenerator', () => {
     const SUT = makeSUT()
     await SUT.generate('any_id')
 
-    expect(jwt.id).toBe('any_id')
+    const payload = { _id: 'any_id' }
+    expect(jwt.payload).toStrictEqual(payload)
     expect(jwt.secret).toBe(SUT.secret)
   })
 
