@@ -78,36 +78,43 @@ const makeEmailValidatorWithError = () => {
 describe('Login router', () => {
   it('should return status code 400 if no email is provided', async () => {
     const { SUT } = makeSUT()
+
     const httpRequest = {
       body: {
         password: 'any_password'
       }
     }
-
     const httpResponse = await SUT.route(httpRequest)
+
+    const errorMessage = new MissingParamError('email').message
+
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('email'))
+    expect(httpResponse.body.error).toBe(errorMessage)
   })
 
   it('should return status code 400 if no password is provided', async () => {
     const { SUT } = makeSUT()
+
     const httpRequest = {
       body: {
         email: 'any_email@mail.com'
       }
     }
-
     const httpResponse = await SUT.route(httpRequest)
+
+    const errorMessage = new MissingParamError('password').message
+
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('password'))
+    expect(httpResponse.body.error).toBe(errorMessage)
   })
 
   it('should return status code 500 if no httpRequest is provided', async () => {
     const { SUT } = makeSUT()
-
     const httpResponse = await SUT.route()
+    const errorMessage = new InternalServerError().message
+
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new InternalServerError())
+    expect(httpResponse.body.error).toBe(errorMessage)
   })
 
   it('should return status code 500 if no httpRequest has no body', async () => {
@@ -115,8 +122,11 @@ describe('Login router', () => {
 
     const httpRequest = {}
     const httpResponse = await SUT.route(httpRequest)
+
+    const errorMessage = new InternalServerError().message
+
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new InternalServerError())
+    expect(httpResponse.body.error).toBe(errorMessage)
   })
 
   it('should call AuthUseCase with correct params', async () => {
@@ -128,7 +138,9 @@ describe('Login router', () => {
         password: 'any_password'
       }
     }
+
     await SUT.route(httpRequest)
+
     expect(authUseCaseSpy.email).toBe(httpRequest.body.email)
   })
 
@@ -145,8 +157,11 @@ describe('Login router', () => {
         }
       }
       const httpResponse = await SUT.route(httpRequest)
+
+      const errorMessage = new UnauthorizedError().message
+
       expect(httpResponse.statusCode).toBe(401)
-      expect(httpResponse.body).toEqual(new UnauthorizedError())
+      expect(httpResponse.body.error).toBe(errorMessage)
     }
   )
 
@@ -162,6 +177,7 @@ describe('Login router', () => {
         }
       }
       const httpResponse = await SUT.route(httpRequest)
+
       expect(httpResponse.statusCode).toBe(200)
       expect(httpResponse.body.accessToken).toEqual(authUseCaseSpy.accessToken)
     }
@@ -177,10 +193,12 @@ describe('Login router', () => {
         password: 'any_password'
       }
     }
-
     const httpResponse = await SUT.route(httpRequest)
+
+    const errorMessage = new InvalidParamError('email').message
+
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('email'))
+    expect(httpResponse.body.error).toBe(errorMessage)
   })
 
   it('should call EmailValidator with correct email', async () => {
@@ -192,7 +210,9 @@ describe('Login router', () => {
         password: 'any_password'
       }
     }
+
     await SUT.route(httpRequest)
+
     expect(emailValidatorSpy.isValid(httpRequest.body.email)).toBe(true)
     expect(emailValidatorSpy.email).toBe(httpRequest.body.email)
   })
@@ -220,7 +240,7 @@ describe('Login router', () => {
       const httpResponse = await SUT.route(httpRequest)
 
       expect(httpResponse.statusCode).toBe(500)
-      expect(httpResponse.body).toEqual(new InternalServerError())
+      expect(httpResponse.body.error).toBe(new InternalServerError().message)
     })
   })
 
@@ -245,7 +265,7 @@ describe('Login router', () => {
       const httpResponse = await SUT.route(httpRequest)
 
       expect(httpResponse.statusCode).toBe(500)
-      expect(httpResponse.body).toEqual(new InternalServerError())
+      expect(httpResponse.body.error).toBe(new InternalServerError().message)
     })
   })
 })
