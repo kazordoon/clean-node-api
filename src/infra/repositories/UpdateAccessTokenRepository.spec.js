@@ -3,17 +3,16 @@ const { MissingParamError } = require('../../utils/errors')
 const UpdateAccessTokenRepository = require('./UpdateAccessTokenRepository')
 
 let userModel
+let fakeUserId
+const fakeUser = {
+  email: 'valid_email@mail.com'
+}
 
 const makeSUT = () => {
   return new UpdateAccessTokenRepository()
 }
 
 describe('UpdateAccessTokenRepository', () => {
-  const fakeUser = {
-    email: 'valid_email@mail.com'
-  }
-  let fakeUserId
-
   beforeEach(async () => {
     await userModel.deleteMany({})
     const [insertedFakeUser] = (await userModel.insertOne(fakeUser)).ops
