@@ -1,16 +1,38 @@
 version: 2.1
+
 orbs:
   coveralls: coveralls/coveralls@1.0.5
-  node: circleci/node@3.0.0
+  node: circleci/node@1.1.6
+
 jobs:
-  node/test:
+  test:
     executor:
       name: node/default
+
     steps:
       - checkout
-      - run: npm install
-      - run: npm run test:coveralls
+
+      - node/with-cache:
+          steps:
+            - run: npm install
+            - run: npm run test:coveralls
+
+      - coveralls/upload:
+          parallel: true
+          flag_name: Test
+          verbose: true
+
+  done:
+    executor:
+      name: node/default
+
+    steps:
+      - coveralls/upload:
+          parallel_finished: true
+
 workflows:
   clean-node-api:
     jobs:
-      - node/test
+      - test
+      - done:
+          requires: [test]
