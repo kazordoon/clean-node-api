@@ -12,10 +12,10 @@
   "scripts": {
     "start": "node .",
     "test": "jest --noStackTrace --passWithNoTests --runInBand",
-    "test:unit": "yarn test --watch --config ./jest-unit-config.js",
-    "test:integration": "yarn test --watch --config ./jest-integration-config.js",
-    "test:staged": "yarn test --findRelatedTests --silent",
-    "test:ci": "yarn test --coverage --silent"
+    "test:unit": "npm test -- --watch --config ./jest-unit-config.js",
+    "test:integration": "npm test -- --watch --config ./jest-integration-config.js",
+    "test:staged": "npm test -- --silent",
+    "test:ci": "npm test -- --coverage --silent"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.3",
