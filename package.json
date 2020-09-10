@@ -15,7 +15,8 @@
     "test:unit": "npm test -- --watch --config ./jest-unit-config.js",
     "test:integration": "npm test -- --watch --config ./jest-integration-config.js",
     "test:staged": "npm test -- --silent",
-    "test:ci": "npm test -- --coverage --silent"
+    "test:ci": "npm test -- --coverage --silent",
+    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.3",
